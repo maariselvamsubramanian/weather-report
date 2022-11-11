@@ -1,0 +1,89 @@
+<form class="example-form">
+    <mat-form-field class="example-full-width" appearance="fill">
+
+        <mat-label>Country</mat-label>
+
+        <input type="text" placeholder="Pick one Country" aria-label="Country" matInput [formControl]="countryControl"
+            (blur)="setLastSelectionValue()" [matAutocomplete]="country">
+        <mat-autocomplete autoActiveFirstOption #country="matAutocomplete"
+            (optionSelected)="selectedCountry($event.option.value)">
+            <mat-option *ngFor="let country of filteredCountries | async" [value]="country.name">
+                {{country.name}}
+            </mat-option>
+        </mat-autocomplete>
+    </mat-form-field>
+
+    <mat-form-field class="example-full-width" appearance="fill">
+
+        <mat-label>States</mat-label>
+
+        <input type="text" placeholder="Pick one state" aria-label="States" matInput [formControl]="statesControl"
+            [matAutocomplete]="state">
+        <mat-autocomplete autoActiveFirstOption #state="matAutocomplete"
+            (optionSelected)="selectedState($event.option.value)">
+            <mat-option *ngFor="let state of filteredStates | async" [value]="state.name">
+                {{state.name}}
+            </mat-option>
+        </mat-autocomplete>
+    </mat-form-field>
+
+    <div *ngIf="isStateSelected">
+        <mat-form-field class="example-full-width" appearance="fill">
+
+            <mat-label>Cities</mat-label>
+
+            <input type="text" placeholder="Pick one City" aria-label="City" matInput [formControl]="cityControl"
+                [matAutocomplete]="city">
+            <mat-autocomplete autoActiveFirstOption #city="matAutocomplete"
+                (optionSelected)="selectedCities($event.option.value)">
+                <mat-option *ngFor="let city of filteredCities | async" [value]="city.name">
+                    {{city.name}}
+                </mat-option>
+            </mat-autocomplete>
+        </mat-form-field>
+    </div>
+</form>
+<mat-error *ngIf="selectedValue.lastSelection==-1">Select the correct values from the list</mat-error>
+<div *ngIf="(selectedValue.lastSelection==0||selectedValue.lastSelection==1|| selectedValue.lastSelection==2)">
+    <label id="example-radio-group-label">Pick your favorite season: </label>
+    <mat-radio-group aria-labelledby="example-radio-group-label" [(ngModel)]="favoriteSeason"
+        *ngFor="let season of seasons">
+        <mat-radio-button class="example-radio-button" [value]="season" [disabled]="season.disabled"
+            (change)="seasonSelection($event)">
+            {{season.name}}
+        </mat-radio-button>
+    </mat-radio-group>
+</div>
+<div *ngIf="favoriteSeason.value==4">
+    <label id="example-radio-group-label">Pick your Data Representation: </label>
+    <mat-radio-group aria-labelledby="example-radio-group-label" [(ngModel)]="defaultPresentationView"
+        *ngFor="let season of representationViews">
+        <mat-radio-button class="example-radio-button" [checked]="season==defaultPresentationView" [value]="season">
+            {{season}}
+        </mat-radio-button>
+    </mat-radio-group>
+</div>
+
+<div *ngIf="!isLoader && favoriteSeason.value==4" style="width: 100%; height: 80%">
+    <div [ngClass]="{'hide':defaultPresentationView==='Table'}">
+        <label id="example-radio-group-label">Select the Date </label>
+        <mat-radio-group aria-labelledby="example-radio-group-label" [(ngModel)]="selectedDate"
+            *ngFor="let date of dateList">
+            <mat-radio-button class="example-radio-button" [checked]="date==selectedDate" [value]="date"
+                (change)="dateChanged($event)">
+                {{date}}
+            </mat-radio-button>
+        </mat-radio-group>
+        <div style="height: 60%">
+            <!-- AG Chart configuration -->
+            <ag-charts-angular style="height: 60%" [options]="chartOptions"></ag-charts-angular>
+        </div>
+    </div>
+
+    <div style="width: 100%; height: 80%" [ngClass]="{'hide':defaultPresentationView==='Chart'}">
+        <!-- AG Grid Angular Component -->
+        <ag-grid-angular style="width: 100%; height: 40%" class="ag-theme-alpine" [columnDefs]="columnDefs"
+            [defaultColDef]="defaultColDef" [rowData]="rowData" [rowSelection]="'multiple'" [animateRows]="true"
+            (gridReady)="onGridReady($event)" (cellClicked)="onCellClicked($event)"></ag-grid-angular>
+    </div>
+</div>

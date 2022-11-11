@@ -1,0 +1,22 @@
+<h1 mat-dialog-title class="align"> {{weatherType}}</h1>
+<mat-divider></mat-divider>
+<div mat-dialog-content class="align">
+    <h3>
+        <div>
+            <span>Maximum Temperature : {{weather.temp_max}}</span>
+        </div>
+        <div>
+            <span>Minimum Temperature : {{weather.temp_min}}</span>
+        </div>
+        <div>
+            <span>Average Temperature : {{weather.temp}}</span>
+        </div>
+        <div>
+            <span>Pressure : {{weather.pressure}}</span>
+        </div>
+    </h3>
+</div>
+<mat-divider></mat-divider>
+<div mat-dialog-actions class="align">
+    <button mat-button  (click)="onNoClick()" cdkFocusInitial>Close</button>
+</div>
