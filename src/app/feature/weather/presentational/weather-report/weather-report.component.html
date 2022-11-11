@@ -43,8 +43,8 @@
         </mat-form-field>
     </div>
 </form>
-<mat-error *ngIf="selectedValue.lastSelection==-1">Select the correct values from the list</mat-error>
-<div *ngIf="(selectedValue.lastSelection==0||selectedValue.lastSelection==1|| selectedValue.lastSelection==2)">
+<mat-error *ngIf="selectedValue.lastSelection===-1">Select the correct values from the list</mat-error>
+<div *ngIf="(selectedValue.lastSelection===0||selectedValue.lastSelection===1|| selectedValue.lastSelection===2)">
     <label id="example-radio-group-label">Pick your favorite season: </label>
     <mat-radio-group aria-labelledby="example-radio-group-label" [(ngModel)]="favoriteSeason"
         *ngFor="let season of seasons">
@@ -54,22 +54,22 @@
         </mat-radio-button>
     </mat-radio-group>
 </div>
-<div *ngIf="favoriteSeason.value==4">
+<div *ngIf="favoriteSeason.value===4">
     <label id="example-radio-group-label">Pick your Data Representation: </label>
     <mat-radio-group aria-labelledby="example-radio-group-label" [(ngModel)]="defaultPresentationView"
         *ngFor="let season of representationViews">
-        <mat-radio-button class="example-radio-button" [checked]="season==defaultPresentationView" [value]="season">
+        <mat-radio-button class="example-radio-button" [checked]="season===defaultPresentationView" [value]="season">
             {{season}}
         </mat-radio-button>
     </mat-radio-group>
 </div>
 
-<div *ngIf="!isLoader && favoriteSeason.value==4" style="width: 100%; height: 80%">
+<div *ngIf="!isLoader && favoriteSeason.value===4" style="width: 100%; height: 80%">
     <div [ngClass]="{'hide':defaultPresentationView==='Table'}">
         <label id="example-radio-group-label">Select the Date </label>
         <mat-radio-group aria-labelledby="example-radio-group-label" [(ngModel)]="selectedDate"
             *ngFor="let date of dateList">
-            <mat-radio-button class="example-radio-button" [checked]="date==selectedDate" [value]="date"
+            <mat-radio-button class="example-radio-button" [checked]="date===selectedDate" [value]="date"
                 (change)="dateChanged($event)">
                 {{date}}
             </mat-radio-button>
