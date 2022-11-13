@@ -182,8 +182,6 @@ export class WeatherReportComponent implements OnInit {
     this.setLocationDetails('country', selectedCountry)
     this.selectedValue.lastSelection = locationSelection.country;
     this.setLastSelectionValue();
-    console.log(this.selectedValue.lastSelection);
-
     // if the basic conditions are satisfied, user chnages the value, automatically update the values
     if (this.selectedValue.lastSelection !== -1 && this.favoriteSeason.value) {
       this.getDataFromAPI(this.favoriteSeason.value);
@@ -193,8 +191,6 @@ export class WeatherReportComponent implements OnInit {
   // Get the selected state name
   selectedState(event: string): void {
     const state: IState = State.getAllStates().find((_state: IState) => _state.name.toLowerCase() === event.toLocaleLowerCase()) as IState;
-    City.getCitiesOfState
-    console.log(state);
     this.isStateSelected = true;
     const country: ICountry = Country.getCountryByCode(state.countryCode) as ICountry;
     this.countryControl.setValue(country.name)
@@ -203,10 +199,8 @@ export class WeatherReportComponent implements OnInit {
     this.setLocationDetails('country', country);
     this.setLocationDetails('state', state);
     this.selectedValue.lastSelection = locationSelection.state;
-    this.cities = [];
-    this.cities = City.getCitiesOfState(state.countryCode, state.isoCode);
-
-    console.log(City.getCitiesOfState(state.countryCode, state.isoCode))
+    this.cities = City.getCitiesOfState(state.countryCode, state.isoCode) as ICity[];
+    this.cityControl.setValue('');
     // if the basic conditions are satisfied, user chnages the value, automatically update the values
     if (this.selectedValue.lastSelection !== -1 && this.favoriteSeason.value) {
       this.getDataFromAPI(this.favoriteSeason.value);
